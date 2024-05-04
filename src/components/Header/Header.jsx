@@ -104,7 +104,7 @@ function Header() {
               )}
               <li className="inline-bock px-6 py-2 duration-200 hover:text-white">
                 <a
-                  href="https://github.com/Kunjshah20/ChaiBlog-App/tree/main/blogApp"
+                  href="https://github.com/Kunjshah20/Chai-Blog-Hub"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:fill-gray-200 duration-300"
