@@ -8,12 +8,12 @@ function PostCard({ urlSlug, $id, title, featuredImage, author, likes }) {
   return (
     <>
       <Link to={`/post/${urlSlug}`}>
-        <div className='w-full flex flex-col items-center text-center card-hover rounded-xl p-4 h-auto'>
-          <div className="w-full justify-center mb-4 h-auto">
+        <div className='flex flex-col items-center text-center card-hover rounded-xl p-4 h-auto shadow-lg transition-shadow duration-300 hover:shadow-xl'>
+          <div className="w-full mb-4">
             <img
               src={appwriteService.getFilePreview(featuredImage)}
               alt={title}
-              className="rounded-xl"
+              className="rounded-xl w-full h-auto object-cover"
             />
           </div>
           <h2 className="text-xl font-bold">{title}</h2>

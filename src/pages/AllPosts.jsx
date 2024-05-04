@@ -40,9 +40,9 @@ function AllPosts() {
             <Loader />
           </div>
         ) : posts.length > 0 ? (
-          <div className="flex flex-wrap flex-row">
+          <div className="columns-1 md:columns-1 lg:columns-2 xl:columns-3 gap-4 p-4">
             {posts.map((post) => (
-              <div key={post.$id} className="p-2 w-full sm:w-1/3 xl:w-1/4">
+              <div key={post.$id} className="break-inside-avoid mb-4">
                 <PostCard {...post} />
               </div>
             ))}

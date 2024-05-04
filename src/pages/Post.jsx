@@ -92,18 +92,17 @@ export default function Post() {
     <div className="py-8 flex justify-center">
       <div className="max-w-[57rem]">
         <Container>
-          <div className="w-40 flex justify-center mb-4 relative border rounded-xl">
-            
+          <div className="w-full flex justify-center mb-4 relative border rounded-xl overflow-hidden">
             <img
               src={appwriteService.getFilePreview(post.featuredImage)}
               alt={post.title}
-              className="rounded-xl object-cover"
+              className="max-h-80 w-auto max-w-full h-auto object-contain mx-auto"
             />
-                <div>
+
             {isAuthor && (
-              <div className="absolute right-[-6rem] top-[-6rem]">
+              <div className="absolute right-6 top-6 space-x-2">
                 <Link to={`/edit-post/${slug}`}>
-                  <Button bgColor="bg-green-500" className="mr-3">
+                  <Button bgColor="bg-green-500">
                     Edit
                   </Button>
                 </Link>
@@ -112,14 +111,12 @@ export default function Post() {
                 </Button>
               </div>
             )}
-            </div>
           </div>
-          
           <div className="w-full mb-6">
             <h1 className="text-2xl font-bold">{post.title}</h1>
             <p className="text-gray-200">Author: {post.author}</p>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mt-4">
               <Button
                 className="flex items-center gap-3 sm:text-xl text-lg"
                 onClick={handleLike}
@@ -132,7 +129,7 @@ export default function Post() {
                 {loading ? (
                   <MiniLoader />
                 ) : (
-                  <p className="text-gray-200 text-sm">{likesCount}</p>
+                  <span className="text-gray-200 text-sm">{likesCount !== 0 ? `${likesCount === 1 ? `1 Like`: `${likesCount} Likes`}`: ` 0 Like`}</span>
                 )}
               </Button>
               <a className="text-gray-200 underline" onClick={displaylikes}>
