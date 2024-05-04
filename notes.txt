@@ -1,0 +1,28 @@
+// Q - You took useEffect and there is a method (e.g - subscription) . How will you optimise it ?
+    // Ans - You store method in a variable and return a callback function (with .unsubscribe)
+    // use of .unsubscribe - To have optimised memory management and to stop it from some loop or some kind of errors which can cause functionality error
+
+
+return value
+          .trim()
+          .toLocaleLowerCase().replaceAll(' ', '-')
+          // .toLowerCase()
+          // .replaceAll(/^[a-zA-Z\d\s]+/g,'-')    // regular expression
+          // .replace(/\s/g, '-')
+
+        // another way to write
+        // const slug = value.toLowerCase().replace(/ /g,'-');
+        // setValue("slug", slug)
+        // return slug;
+
+
+<div className="absolute right-6 top-6">
+              <Link to={`/edit-post/${post.$id}`}>
+                <Button bgColor="bg-green-500" className="mr-3">
+                  Edit
+                </Button>
+              </Link>
+              <Button bgColor="bg-red-500" onClick={deletePost}>
+                Delete
+              </Button>
+            </div>
