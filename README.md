@@ -35,9 +35,8 @@ BlogHub is accessible on [Demo Link](https://chaibloghub.netlify.app/), providin
 ## 🚦 Running the Project
 
 1. **Clone the Repository:** `https://github.com/Kunjshah20/Chai-Blog-Hub`
-2. **Navigate to the Project Directory:** `cd blogApp`
-3. **Install Dependencies:** `npm install`
-4. Run `npm run dev` to get the project started.
+2. **Install Dependencies:** `npm install`
+3. Run `npm run dev` to get the project started.
 
 ## 🌟 Usage
 
