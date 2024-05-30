@@ -5,7 +5,7 @@ import appwriteService from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-function PostForm({ post }) {
+function PostForm({ post, onSubmit }) {
   const {
     register,
     handleSubmit,
@@ -36,13 +36,14 @@ function PostForm({ post }) {
         ? await appwriteService.uploadFile(data.image[0])
         : null
       if (file) {
-        appwriteService.deleteFile(post.featuredImage)
+        await appwriteService.deleteFile(post.featuredImage)
       }
       const dbPost = await appwriteService.updatePost(post.$id, {
         ...data,
         urlSlug : data.slug,
         featuredImage: file ? file.$id : undefined,
       })
+      await onSubmit(dbPost)
       if (dbPost) {
         setLoading(false)
         navigate(`/post/${data.slug}`, {replace: true} )

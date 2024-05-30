@@ -17,11 +17,20 @@ function EditPost() {
         } else navigate('/')
     }, [slug, navigate])
 
+    const handleUpdatePost = async (updatedPost) => {
+        try {
+            await appwriteService.updatePost(slug, updatedPost);
+            navigate('/'); // Redirect to the posts list after updating
+        } catch (error) {
+            console.error("Error updating post:", error);
+        }
+    };
+
     return post ? (
         <div className='py-8'>
             <div><h1 className=' text-[2rem] md:text-[2.5rem] text-center font-semibold' >Edit Post</h1></div>
             <Container>
-                <PostForm post={post} />
+                <PostForm post={post} onSubmit = {handleUpdatePost} />
             </Container>
         </div>
     ) : null

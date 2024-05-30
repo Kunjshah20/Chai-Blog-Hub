@@ -5,27 +5,50 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function AllPosts() {
-  const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [posts, setPosts] = useState(JSON.parse(sessionStorage.getItem('posts')) || [])
+  const [loading, setLoading] = useState(posts.length === 0)
   const authStatus = useSelector((state) => state.auth.status)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const delayLoading = setTimeout(() => {
-      appwriteService.getPosts([]).then((posts) => {
-        if (posts) {
-          setPosts(posts.documents)
-          setLoading(false)
-        }
-      })
-    }, 2000)
+    if (posts.length === 0) {
+      const delayLoading = setTimeout(() => {
+        appwriteService.getPosts([]).then((posts) => {
+          if (posts) {
+            setPosts(posts.documents)
+            sessionStorage.setItem('posts', JSON.stringify(posts.documents))
+            setLoading(false)
+          }
+        })
+      }, 2000)
 
-    return () => clearTimeout(delayLoading)
-  }, [])
+      return () => clearTimeout(delayLoading)
+    } else {
+      setLoading(false)
+    }
+  }, [posts])
 
   const handleAddPostClick = () => {
     navigate('/add-post')
   }
+
+  const handlePostAdded = (newPost) => {
+    const updatedPosts = [...posts, newPost];
+    setPosts(updatedPosts);
+    sessionStorage.setItem('posts', JSON.stringify(updatedPosts));
+  };
+
+  const handlePostUpdated = (updatedPost) => {
+    const updatedPosts = posts.map(post => post.$id === updatedPost.$id ? updatedPost : post);
+    setPosts(updatedPosts);
+    sessionStorage.setItem('posts', JSON.stringify(updatedPosts));
+  };
+
+  const handlePostDeleted = (deletedPostId) => {
+    const updatedPosts = posts.filter(post => post.$id !== deletedPostId);
+    setPosts(updatedPosts);
+    sessionStorage.setItem('posts', JSON.stringify(updatedPosts));
+  };
 
   return (
     <div className="w-full py-8">
@@ -43,7 +66,7 @@ function AllPosts() {
           <div className="columns-1 md:columns-1 lg:columns-2 xl:columns-3 gap-4 p-4">
             {posts.map((post) => (
               <div key={post.$id} className="break-inside-avoid mb-4">
-                <PostCard {...post} />
+                <PostCard {...post} onUpdate={handlePostUpdated} onDelete={handlePostDeleted} />
               </div>
             ))}
           </div>

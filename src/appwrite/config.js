@@ -17,7 +17,7 @@ export class Service {
 
   async createPost({title, slug, content, featuredImage, status, userId, author, likes = 0}){
     try {
-      return await this.databases.createDocument(
+      const response =  await this.databases.createDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug,
@@ -34,6 +34,8 @@ export class Service {
         // return await this.databases.createDocument( DatabaseId, collectionId, documentId, {content you want to store} )
         // instead of slug, we can use ID.unique()
       );
+      this.invalidateCache();
+      return response;
     } catch (error) {
       console.log("Appwrite serive :: createPost :: error", error);
     }
@@ -42,7 +44,7 @@ export class Service {
   // since documentId is important, we can take it separately
   async updatePost(slug, { title, content, featuredImage, status, author, urlSlug }) {
     try {
-      return await this.databases.updateDocument(
+      const response = await this.databases.updateDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug,
@@ -55,6 +57,8 @@ export class Service {
           urlSlug,
         }
       );
+      this.invalidateCache();
+      return response;
     } catch (error) {
       console.log("Appwrite serive :: updatePost :: error", error);
     }
@@ -62,12 +66,13 @@ export class Service {
 
   async deletePost(slug) {
     try {
-      await this.databases.deleteDocument(
+      const response = await this.databases.deleteDocument(
         conf.appwriteDatabaseId,
         conf.appwriteCollectionId,
         slug
       );
-      return true;
+      this.invalidateCache();
+      return response;
     } catch (error) {
       console.log("Appwrite serive :: deletePost :: error", error);
       return false;
@@ -101,6 +106,10 @@ export class Service {
       console.log("Appwrite serive :: getPosts :: error", error);
       return false;
     }
+  }
+
+  invalidateCache() {
+    sessionStorage.removeItem('posts');
   }
 
   async createLike(postId, urlSlug) {
